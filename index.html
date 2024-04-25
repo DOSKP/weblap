@@ -1,0 +1,92 @@
+<!DOCTYPE <!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="container">
+        
+            <h1>Regisztráció</h1>
+            <form id="registrationForm" onsubmit="return validateForm()">
+                <label for="vezeteknev">Vezetéknév:</label><br>
+                <input type="vezeteknev" id="vezeteknev" name="vezeteknev" required><br>
+
+                <label for="keresztnev">Keresztnév:</label><br>        
+                <input type="keresztnev" id="keresztnev" name="keresztnev" required><br>
+
+                <label for="felhasználónév">Felhasználónév:</label><br>
+                <input type="felhasznalonev" id="felhasznalonev" name="felhasznalonev" required><br>
+
+                <label for="email">Email cím:</label><br>
+                <input type="email" id="email" name="email" required><br>
+
+                <label for="password">Jelszó:</label><br>
+                <input type="password" id="password" name="password" required><br>
+
+                <label for="confirm_password">Jelszó megerősítése:</label><br>
+                <input type="confirm_password" id="confirm_password" name="confirm_password" required><br><br>
+
+
+
+
+
+
+
+
+                <label for="pozicio">Pozíció:</label><br>
+
+                <input type="checkbox" id="tanar" name="tanar">
+                <label for="tanar">Tanár:</label><br>
+
+                <input type="checkbox" id="diak" name="diak">
+                <label for="diak">Diak:</label><br>
+
+                <input type="checkbox" id="alkalmazott" name="alkalmazott">  
+                <label for="alkalmazott">Alkalmazott</label><br><br>
+
+                <label for="username">Nem:</label><br>
+
+                <input type="checkbox" id="ferfi" name="Férfi">
+                <label for="Férfi">Férfi</label><br>
+
+                <input type="checkbox" id="no" name="no">
+                <label for="Nő">Nő</label><br>
+
+                <input type="submit" id="submit" value="Regisztráció"></input>
+            <div id="error_message" class="error"></div>
+            
+    </body>
+
+    <script>    
+    function validateForm() {
+        var username = document.getElementById("username").value;
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
+        var confirm_password = document.getElementById("confirm_password").value;
+
+ 
+        if (password !== confirm_password) {
+            document.getElementById("error_message").innerHTML = "A jelszavak nem egyeznek meg.";
+            return false;
+        }
+
+      
+        var users = JSON.parse(localStorage.getItem("users")) || [];
+        for (var i = 0; i < users.length; i++) {
+            if (users[i].username === username) {
+                document.getElementById("error_message").innerHTML = "A felhasználónév már foglalt.";
+                return false;
+            }
+            if (users[i].email === email) {
+                document.getElementById("error_message").innerHTML = "Az email cím már regisztrálva van.";
+                return false;
+            }
+        }
+
+     
+        var newUser = { username: username, email: email, password: password };
+        users.push(newUser);
+        localStorage.setItem("users", JSON.stringify(users));
+    }
+        </script>
+</html>
